@@ -7,6 +7,7 @@
 - Next.js (App Router) + TypeScript + Tailwind CSS
 - Motion + Lenis for interaction
 - Vercel AI SDK + `@ai-sdk/openai-compatible` → NVIDIA NIM
+- Langfuse + OpenTelemetry for optional, privacy-aware AI tracing
 - Vitest for grounding / rate-limit / config tests
 
 ## Setup
@@ -24,6 +25,20 @@ NVIDIA_MODEL=z-ai/glm-5.2
 ```
 
 Any OpenAI-compatible model ID available on your NVIDIA account works via `NVIDIA_MODEL`.
+
+Optional Langfuse tracing:
+
+```bash
+LANGFUSE_PUBLIC_KEY=pk-lf-...
+LANGFUSE_SECRET_KEY=sk-lf-...
+LANGFUSE_BASE_URL=https://us.cloud.langfuse.com
+LANGFUSE_TRACING_ENVIRONMENT=development
+```
+
+Use `https://cloud.langfuse.com` for the EU cloud. Tracing is disabled unless
+both project keys are present. The integration creates one trace per chat turn,
+groups turns into chat sessions, masks common secrets/contact details, and keeps
+full prompts and conversation history out of AI SDK telemetry.
 
 ```bash
 npm run dev
@@ -48,6 +63,7 @@ Open [http://localhost:3000](http://localhost:3000).
 - Speech-to-text: mic button → `POST /api/transcribe` → NVIDIA Parakeet ASR
 - Grounding: `src/data/profile.ts` (resume + pinned projects)
 - Without `NVIDIA_API_KEY`, the UI shows an offline state and chat/ASR routes return `503`
+- Without Langfuse keys, chat works normally with tracing disabled
 
 Optional ASR endpoint override:
 
@@ -70,7 +86,10 @@ builds and deploys the frontend and the Next.js API routes together:
 1. In Vercel, choose **Add New → Project**, import this GitHub repository, and
    configure `main` as its production branch.
 2. Add `NVIDIA_API_KEY`, `NVIDIA_MODEL`, and optional `NVIDIA_ASR_URL` to the
-   appropriate Preview and Production environments in Vercel.
+   appropriate Preview and Production environments in Vercel. To enable tracing,
+   also add `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL`,
+   and `LANGFUSE_TRACING_ENVIRONMENT` (use distinct `preview` and `production`
+   values).
 3. Deploy the imported project. Future pushes are deployed automatically by
    Vercel, so no `VERCEL_TOKEN`, `VERCEL_ORG_ID`, or `VERCEL_PROJECT_ID` GitHub
    secrets are required.

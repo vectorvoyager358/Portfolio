@@ -301,7 +301,7 @@ export const profile = {
         "Redis",
         "WebSockets / Socket.IO",
         "Idempotency & job state",
-        "Observability (New Relic)",
+        "Observability (New Relic, Sentry)",
       ],
     },
     {

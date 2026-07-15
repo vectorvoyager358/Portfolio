@@ -1,7 +1,7 @@
 "use client";
 
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { DefaultChatTransport, generateId } from "ai";
 import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowUp,
@@ -64,6 +64,7 @@ export function AskJeethesh({
   const [voiceStream, setVoiceStream] = useState<MediaStream | null>(null);
   const [closing, setClosing] = useState(false);
   const [minTypingComplete, setMinTypingComplete] = useState(true);
+  const [chatId, setChatId] = useState(() => generateId());
   const scrollerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const typingTimerRef = useRef<number | null>(null);
@@ -75,6 +76,7 @@ export function AskJeethesh({
 
   const { messages, sendMessage, status, error, setMessages, stop, clearError } =
     useChat({
+      id: chatId,
       transport,
     });
 
@@ -198,6 +200,7 @@ export function AskJeethesh({
     }
     setMinTypingComplete(true);
     clearChatConversation({ stop, setMessages, clearError });
+    setChatId(generateId());
   }
 
   return (
