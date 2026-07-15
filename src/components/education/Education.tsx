@@ -14,7 +14,7 @@ export function Education() {
         <SectionHeading
           eyebrow="Education"
           title="Academic foundation"
-          description="Data science graduate training paired with a strong engineering undergraduate core."
+          description="Data science graduate paired with a strong engineering undergraduate core."
         />
       </Reveal>
       <div className="grid gap-8 sm:grid-cols-2">

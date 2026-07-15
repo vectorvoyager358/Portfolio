@@ -10,7 +10,7 @@ describe("profile grounding", () => {
     const context = buildGroundingContext();
     expect(context).toContain("Resilience Hub");
     expect(context).toContain("VoxWire");
-    expect(context).toContain("Local LLM Inference Bench");
+    expect(context).toContain("Local LLM Inference Benchmarking");
     expect(context).toContain("Moment Keeper");
     expect(context).toContain("Halliburton");
     expect(context).toContain(profile.email);
@@ -38,6 +38,19 @@ describe("profile grounding", () => {
       "local-llm-bench",
       "moment-keeper",
     ]);
+  });
+
+  it("grounds the motivation behind personal projects", () => {
+    const resilienceHub = profile.projects.find(
+      (project) => project.id === "resilience-hub",
+    );
+    const momentKeeper = profile.projects.find(
+      (project) => project.id === "moment-keeper",
+    );
+
+    expect(resilienceHub?.why).toContain("personal challenges");
+    expect(momentKeeper?.why).toContain("meaningful moments");
+    expect(buildGroundingContext()).toContain("Why I built it:");
   });
 
   it("includes a hiring question among starter prompts", () => {
