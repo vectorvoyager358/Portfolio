@@ -1,0 +1,321 @@
+@import "tailwindcss";
+
+:root,
+.dark {
+  color-scheme: dark;
+  --bg: #0b0f14;
+  --bg-elevated: #121821;
+  --bg-soft: #182031;
+  --bg-mid: #0d1219;
+  --fg: #e8eef6;
+  --fg-muted: #8b9bb0;
+  --line: rgba(232, 238, 246, 0.1);
+  --accent: #3ee0c5;
+  --accent-dim: rgba(62, 224, 197, 0.14);
+  --accent-strong: #62f0d5;
+  --steel-1: #1a2433;
+  --steel-2: #243247;
+  --danger: #ff7b72;
+  --glow-teal: rgba(62, 224, 197, 0.08);
+  --glow-blue: rgba(126, 184, 255, 0.07);
+  --glow-mix-a: rgba(62, 224, 197, 0.22);
+  --glow-mix-b: rgba(126, 184, 255, 0.2);
+  --glow-mix-c: rgba(90, 160, 220, 0.14);
+  --gradient-from: #3ee0c5;
+  --gradient-to: #7eb8ff;
+  --section-tint: rgba(24, 32, 49, 0.55);
+  /* Flat muted wash for alternating section bands (santifer-style bg-muted/30). */
+  --section-muted: color-mix(in srgb, var(--bg-soft) 55%, transparent);
+  --dot-grid: rgba(232, 238, 246, 0.14);
+  --noise-opacity: 0.035;
+  --caret: rgba(232, 238, 246, 0.7);
+  --selection-bg: rgba(62, 224, 197, 0.28);
+  --selection-fg: #fff;
+  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-ibm-plex), ui-sans-serif, system-ui, sans-serif;
+}
+
+.light {
+  color-scheme: light;
+  --bg: #f3f6fa;
+  --bg-elevated: #ffffff;
+  --bg-soft: #e7edf5;
+  --bg-mid: #eef2f7;
+  --fg: #121821;
+  --fg-muted: #5a6b80;
+  --line: rgba(18, 24, 33, 0.12);
+  --accent: #0f9b87;
+  --accent-dim: rgba(15, 155, 135, 0.12);
+  --accent-strong: #0c8574;
+  --steel-1: #dce5f0;
+  --steel-2: #c8d4e3;
+  --danger: #d64545;
+  --glow-teal: rgba(15, 155, 135, 0.1);
+  --glow-blue: rgba(70, 120, 190, 0.08);
+  --glow-mix-a: rgba(15, 155, 135, 0.16);
+  --glow-mix-b: rgba(90, 130, 210, 0.14);
+  --glow-mix-c: rgba(62, 120, 190, 0.1);
+  --gradient-from: #0f9b87;
+  --gradient-to: #3b6fb6;
+  --section-tint: rgba(231, 237, 245, 0.72);
+  --section-muted: color-mix(in srgb, var(--steel-2) 35%, transparent);
+  --dot-grid: rgba(18, 24, 33, 0.22);
+  --noise-opacity: 0.02;
+  --caret: rgba(18, 24, 33, 0.55);
+  --selection-bg: rgba(15, 155, 135, 0.22);
+  --selection-fg: #0b0f14;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-soft: var(--bg-soft);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-accent-strong: var(--accent-strong);
+  --color-steel-1: var(--steel-1);
+  --color-steel-2: var(--steel-2);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 700px at 85% -10%, var(--glow-teal), transparent 55%),
+    radial-gradient(900px 500px at -10% 20%, var(--glow-blue), transparent 50%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-mid) 45%, var(--bg) 100%);
+  color: var(--fg);
+  font-family: var(--font-body);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
+}
+
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+label[for],
+summary {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.text-gradient {
+  background-image: linear-gradient(
+    to right,
+    var(--gradient-from),
+    var(--gradient-to)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.section-band {
+  position: relative;
+  isolation: isolate;
+}
+
+.section-band-hero {
+  background:
+    radial-gradient(900px 520px at 12% 18%, var(--glow-mix-b), transparent 60%),
+    radial-gradient(760px 460px at 88% 8%, var(--glow-mix-a), transparent 58%);
+}
+
+/* Solid muted band — matches santifer's bg-muted/30 zebra grading. */
+.section-band-muted {
+  background-color: var(--section-muted);
+}
+
+/* Clear band — lets page background + dot grid show through. */
+.section-band-clear {
+  background-color: transparent;
+}
+
+/* Legacy aliases kept for any remaining callers. */
+.section-band-alt {
+  background-color: var(--section-muted);
+}
+
+.section-band-soft {
+  background-color: transparent;
+}
+
+@property --beam-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes beam-spin {
+  0% {
+    --beam-angle: 0deg;
+  }
+  100% {
+    --beam-angle: 360deg;
+  }
+}
+
+@keyframes heal-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.6);
+  }
+  12% {
+    opacity: 0.25;
+  }
+  40% {
+    opacity: 0.15;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-65px) scale(0.2);
+  }
+}
+
+.beam-pill::before {
+  content: "";
+  position: absolute;
+  inset: -1px -10px -1px -10px;
+  border-radius: 9999px;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0%,
+    transparent 82%,
+    rgba(74, 222, 128, 0.05) 86%,
+    rgba(74, 222, 128, 0.15) 89%,
+    rgba(74, 222, 128, 0.35) 92%,
+    rgba(74, 222, 128, 0.6) 95%,
+    rgba(74, 222, 128, 0.9) 98%,
+    #4ade80 100%,
+    transparent 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: beam-spin 2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam-pill::before {
+    animation: none;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      transparent 60%,
+      rgba(74, 222, 128, 0.55) 100%
+    );
+  }
+}
+
+.noise {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.dot-grid {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: radial-gradient(circle, var(--dot-grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@keyframes float-pulse {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translateY(-12px) scale(1.04);
+    opacity: 0.75;
+  }
+}
+
+@keyframes mesh-drift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(2%, -3%, 0) rotate(1.5deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes muted-breathe {
+  0%,
+  100% {
+    transform: scaleY(0.72);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 0.85;
+  }
+}
+
+@keyframes terminal-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.terminal-caret {
+  background-color: var(--caret);
+  animation: terminal-blink 1s step-end infinite;
+}
+
+.atmosphere-orb {
+  animation: float-pulse 9s ease-in-out infinite;
+}
+
+.atmosphere-mesh {
+  animation: mesh-drift 18s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atmosphere-orb,
+  .atmosphere-mesh,
+  .terminal-caret {
+    animation: none;
+  }
+}
