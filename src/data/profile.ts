@@ -3,6 +3,7 @@ export type Project = {
   name: string;
   tagline: string;
   description: string;
+  why?: string;
   highlights: string[];
   stack: string[];
   github: string;
@@ -96,28 +97,28 @@ export const profile = {
   ],
   focusAreas: [
     {
-      title: "Event-driven backends",
-      detail: "Node.js microservices, Kafka, Redis, WebSockets, idempotency",
+      title: "Enterprise OSDU publishing",
+      detail: "Data transfer of multiple data products to OSDU",
     },
     {
-      title: "AI systems in production",
-      detail: "RAG, agents, evals, grounding, provider resilience",
+      title: "AI-assisted quality engineering",
+      detail: "Dual-agent Stryker loops, ≥95% coverage, reusable across 10+ teams",
     },
     {
-      title: "Realtime data movement",
-      detail: "Status streaming, transfer orchestration, low-latency feedback",
+      title: "Kafka platform reliability",
+      detail: "Recovered capacity at 18,000 partitions and diagnosed the 4,000-ACL ceiling",
     },
     {
-      title: "LLMOps & quality loops",
-      detail: "Tracing, RAGAS, mutation-testing agents, CI gates",
+      title: "Event-driven orchestration",
+      detail: "Node.js, Kafka, Redis, DSDT transfers, and idempotent job-state workflows",
     },
     {
-      title: "Cloud delivery",
-      detail: "Cloud Run, Firebase, Docker, Kubernetes, GitHub Actions",
+      title: "Realtime transfer visibility",
+      detail: "Kafka → Socket.IO status delivery scoped by well, scenario, and tenant",
     },
     {
-      title: "Forward-deployed debugging",
-      detail: "Partition limits, ACL storms, duplicate-transfer races",
+      title: "Compliance & observability",
+      detail: "New Relic tracing, structured logs, activity audits, and technical-status notifications",
     },
   ],
   projects: [
@@ -133,6 +134,8 @@ export const profile = {
       ],
       description:
         "A retrieval-augmented assistant over personal resilience notes — Flask orchestrates Gemini + Pinecone with Cohere reranking, citation-grounded answers, Firebase auth, and Cloud Run deployment.",
+      why:
+        "I wanted to stay consistent through personal challenges, but generic habit trackers never felt personal enough to stick. Building one around my own reflection process meant I could shape it to how I actually think — and feel invested enough to keep using it.",
       highlights: [
         "30/30 golden CI tests and 6/6 live RAGAS evals (1.0 faithfulness, 0.90 relevancy)",
         "Intent-aware routing that bypasses vector search for aggregate queries",
@@ -187,7 +190,7 @@ export const profile = {
     },
     {
       id: "local-llm-bench",
-      name: "Local LLM Inference Bench",
+      name: "Local LLM Inference Benchmarking",
       tagline: "Empirical SLM benchmarking on constrained hardware",
       status: "Open source",
       metrics: [
@@ -203,7 +206,7 @@ export const profile = {
         "Separated cold-start vs warm TTFT from generation speed",
         "Pydantic-validated structured outputs with automatic retries",
       ],
-      stack: ["Python", "Ollama", "Pydantic", "Llama 3.2", "Phi-3", "Mistral"],
+      stack: ["Python", "Ollama", "Pydantic", "Llama 3.2:3B", "Phi-3:mini", "Mistral:7B"],
       github:
         "https://github.com/vectorvoyager358/Local-LLM-Inference-Benchmarking-System",
       accent: "#F0A46E",
@@ -220,6 +223,8 @@ export const profile = {
       ],
       description:
         "A Next.js product for capturing and revisiting meaningful memories — Supabase auth, Postgres, and storage with CI for lint, format, test, and build.",
+      why:
+        "I had the idea after realizing how quietly meaningful moments fade as life moves on: a first solo journey, the day years of work turn into a dream opportunity, a loved one's voice you wish you had recorded, or an ordinary afternoon that becomes precious later. I wanted one place to preserve those moments and revisit them whenever I want to.",
       highlights: [
         "App Router + TypeScript + Tailwind product surface",
         "Supabase auth, Postgres, and object storage",
@@ -238,8 +243,7 @@ export const profile = {
       location: "Houston, TX",
       start: "July 2024",
       end: "Present",
-      summary:
-        "End-to-end ownership on an OSDU publishing platform — discovery through delivery — collaborating across teams on reliability, realtime visibility, and AI-assisted quality.",
+      summary: undefined,
       bullets: [
         "Engineered an event-driven OSDU publishing platform with Node.js microservices, Kafka, Redis, and WebSockets to synchronize well-planning data across enterprise systems.",
         "Scaled AI-driven mutation testing across 10+ engineering teams with a dual-agent framework that reached ≥95% coverage via Stryker feedback loops.",
@@ -308,6 +312,7 @@ export const profile = {
         "Embeddings & reranking",
         "LLM evaluation (RAGAS)",
         "Prompt engineering",
+        "Observability (Langfuse)",
         "Structured outputs",
         "AI agents & mutation testing",
         "Local LLM inference",
@@ -331,11 +336,11 @@ export const profile = {
       items: [
         "Python",
         "TypeScript / JavaScript",
-        "C# / Java / SQL",
+        "C# / Java / SQL / Angular",
         "Flask / FastAPI",
         "Express / Hapi.js",
         "Next.js / React",
-        "PostgreSQL / Supabase / Pinecone",
+        "PostgreSQL / Supabase / Pinecone / SQLServer",
       ],
     },
   ] satisfies SkillCluster[],
@@ -360,7 +365,7 @@ export function buildGroundingContext(data: typeof profile = profile): string {
   const projects = data.projects
     .map(
       (p) =>
-        `### ${p.name}\n${p.tagline}\n${p.description}\nHighlights:\n${p.highlights.map((h) => `- ${h}`).join("\n")}\nStack: ${p.stack.join(", ")}\nGitHub: ${p.github}${p.live ? `\nLive: ${p.live}` : ""}`,
+        `### ${p.name}\n${p.tagline}\n${p.description}${p.why ? `\nWhy I built it: ${p.why}` : ""}\nHighlights:\n${p.highlights.map((h) => `- ${h}`).join("\n")}\nStack: ${p.stack.join(", ")}\nGitHub: ${p.github}${p.live ? `\nLive: ${p.live}` : ""}`,
     )
     .join("\n\n");
 

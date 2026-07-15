@@ -67,11 +67,24 @@ function ProjectPanel({
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <div className="grid gap-8 pb-10 md:grid-cols-[1.15fr_0.85fr]">
+            <div className="grid gap-8 pb-10 md:grid-cols-[1.05fr_0.95fr]">
               <div>
                 <p className="max-w-2xl text-base leading-relaxed text-fg-muted">
                   {project.description}
                 </p>
+                {project.why ? (
+                  <div
+                    className="mt-5 border-l-2 pl-4"
+                    style={{ borderColor: project.accent }}
+                  >
+                    <p className="font-mono text-[10px] tracking-[0.16em] text-accent uppercase">
+                      Why I built it
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-fg/85">
+                      {project.why}
+                    </p>
+                  </div>
+                ) : null}
                 <ul className="mt-6 space-y-3">
                   {project.highlights.map((item) => (
                     <li
@@ -89,10 +102,10 @@ function ProjectPanel({
               </div>
               <div className="space-y-6">
                 {project.metrics?.length ? (
-                  <div className="grid grid-cols-3 gap-3 border-t border-line pt-4">
+                  <div className="grid grid-cols-2 gap-x-2 gap-y-4 border-t border-line pt-4 sm:grid-cols-[1.35fr_1fr_1fr]">
                     {project.metrics.map((metric) => (
-                      <div key={metric.label}>
-                        <p className="font-display text-lg text-fg sm:text-xl">
+                      <div key={metric.label} className="min-w-0">
+                        <p className="whitespace-nowrap font-display text-sm text-fg lg:text-base">
                           {metric.value}
                         </p>
                         <p className="mt-1 font-mono text-[10px] tracking-[0.14em] text-fg-muted uppercase">
