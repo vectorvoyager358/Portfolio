@@ -13,6 +13,8 @@ describe("privacyPolicy", () => {
     const blob = JSON.stringify(privacyPolicy);
     expect(blob).toContain("Ask Jeethesh");
     expect(blob).toContain("NVIDIA");
+    expect(blob).toContain("Langfuse");
+    expect(blob).toContain("Redacted");
     expect(blob).toContain("localStorage");
     expect(blob).toContain(profile.email);
   });
