@@ -3,7 +3,18 @@ import {
   streamText,
   type UIMessage,
 } from "ai";
+import { propagateAttributes, startActiveObservation } from "@langfuse/tracing";
+import { after } from "next/server";
 import { buildSystemPrompt } from "@/data/profile";
+import {
+  getLatestUserMessageText,
+  normalizeLangfuseSessionId,
+  sanitizeLangfuseTraceText,
+} from "@/lib/langfuse";
+import {
+  flushLangfuseTracing,
+  isLangfuseTracingReady,
+} from "@/lib/langfuse.server";
 import { getNvidiaChatModel, isNvidiaConfigured } from "@/lib/nvidia";
 import { checkRateLimit } from "@/lib/rate-limit";
 
@@ -55,23 +66,117 @@ export async function POST(req: Request) {
   }
 
   let messages: UIMessage[];
+  let sessionId: string | undefined;
   try {
-    const body = (await req.json()) as { messages?: UIMessage[] };
+    const body = (await req.json()) as {
+      id?: unknown;
+      messages?: UIMessage[];
+    };
     if (!Array.isArray(body.messages) || body.messages.length === 0) {
       return Response.json({ error: "messages are required" }, { status: 400 });
     }
     messages = body.messages;
+    sessionId = normalizeLangfuseSessionId(body.id);
   } catch {
     return Response.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const result = streamText({
-    model: getNvidiaChatModel(),
-    system: buildSystemPrompt(),
-    messages: await convertToModelMessages(messages),
-    temperature: 0.4,
-    maxOutputTokens: 2048,
-  });
+  const modelMessages = await convertToModelMessages(messages);
 
-  return result.toUIMessageStreamResponse();
+  if (!isLangfuseTracingReady()) {
+    const result = streamText({
+      model: getNvidiaChatModel(),
+      system: buildSystemPrompt(),
+      messages: modelMessages,
+      temperature: 0.4,
+      maxOutputTokens: 2048,
+      telemetry: { isEnabled: false },
+    });
+
+    return result.toUIMessageStreamResponse();
+  }
+
+  return startActiveObservation(
+    "chat-turn",
+    (trace) =>
+      propagateAttributes(
+        {
+          traceName: "ask-jeethesh",
+          ...(sessionId ? { sessionId } : {}),
+          tags: ["portfolio", "chat"],
+          metadata: {
+            feature: "ask-jeethesh",
+            provider: "nvidia-nim",
+            route: "api-chat",
+          },
+        },
+        () => {
+          trace.update({
+            input: sanitizeLangfuseTraceText(
+              getLatestUserMessageText(messages),
+            ),
+          });
+
+          let traceEnded = false;
+          const finishTrace = (attributes: Parameters<typeof trace.update>[0]) => {
+            if (traceEnded) return;
+            traceEnded = true;
+            trace.update(attributes);
+            trace.end();
+          };
+
+          after(async () => {
+            finishTrace({
+              level: "WARNING",
+              statusMessage: "Stream closed without a completion callback.",
+              output: "[stream closed]",
+            });
+            await flushLangfuseTracing();
+          });
+
+          try {
+            const result = streamText({
+              model: getNvidiaChatModel(),
+              system: buildSystemPrompt(),
+              messages: modelMessages,
+              temperature: 0.4,
+              maxOutputTokens: 2048,
+              telemetry: {
+                isEnabled: true,
+                functionId: "ask-jeethesh.generate-response",
+                recordInputs: false,
+                recordOutputs: false,
+              },
+              onEnd: ({ text }) => {
+                finishTrace({ output: sanitizeLangfuseTraceText(text) });
+              },
+              onError: () => {
+                finishTrace({
+                  level: "ERROR",
+                  statusMessage: "The model stream failed.",
+                  output: "[generation failed]",
+                });
+              },
+              onAbort: () => {
+                finishTrace({
+                  level: "WARNING",
+                  statusMessage: "The model stream was aborted.",
+                  output: "[generation aborted]",
+                });
+              },
+            });
+
+            return result.toUIMessageStreamResponse();
+          } catch (error) {
+            finishTrace({
+              level: "ERROR",
+              statusMessage: "The model stream could not be created.",
+              output: "[generation setup failed]",
+            });
+            throw error;
+          }
+        },
+      ),
+    { endOnExit: false },
+  );
 }
