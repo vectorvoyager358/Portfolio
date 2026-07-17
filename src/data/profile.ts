@@ -246,6 +246,7 @@ export const profile = {
       summary: undefined,
       bullets: [
         "Engineered an event-driven OSDU publishing platform with Node.js microservices, Kafka, Redis, and WebSockets to synchronize well-planning data across enterprise systems.",
+        "Built and maintained Angular feature UIs for the OSDU publishing platform, turning complex enterprise data workflows into clear, maintainable user experiences.",
         "Scaled AI-driven mutation testing across 10+ engineering teams with a dual-agent framework that reached ≥95% coverage via Stryker feedback loops.",
         "Unblocked Kafka deployments by identifying 200+ stale feature-branch topics and resolving Confluent limits at 18,000 partitions and 4,000 ACLs.",
         "Streamed Kafka status events through Socket.IO rooms for 7 OSDU transfer entities — repeat updates in 15–20s, first-time in ~2 minutes.",
@@ -336,10 +337,10 @@ export const profile = {
       items: [
         "Python",
         "TypeScript / JavaScript",
-        "C# / Java / SQL / Angular",
+        "C# / Java / SQL",
         "Flask / FastAPI",
         "Express / Hapi.js",
-        "Next.js / React",
+        "Angular / Next.js / React",
         "PostgreSQL / Supabase / Pinecone / SQLServer",
       ],
     },

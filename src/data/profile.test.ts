@@ -13,6 +13,7 @@ describe("profile grounding", () => {
     expect(context).toContain("Local LLM Inference Benchmarking");
     expect(context).toContain("Moment Keeper");
     expect(context).toContain("Halliburton");
+    expect(context).toContain("Angular feature UIs");
     expect(context).toContain(profile.email);
   });
 
