@@ -2,13 +2,13 @@
 
 An interactive portfolio for a Software / AI Engineer building distributed systems, grounded AI products, and reliable developer platforms.
 
-[View the live portfolio](https://portfolio-three-bice-shl0bnb8va.vercel.app) · [GitHub](https://github.com/vectorvoyager358) · [LinkedIn](https://www.linkedin.com/in/jeethesh-r-578a421a6)
+
 
 ## Overview
 
-This site is designed as a product rather than a static resume. It combines a guided career narrative, expandable project case studies, and **Ask Jeethesh**—a streaming assistant that answers questions using structured profile data from this repository.
+This portfolio brings my work, experience, and engineering approach together in one interactive experience. It combines a guided career narrative, expandable project case studies, and **Ask Jeethesh**—a streaming assistant that answers questions using structured profile data.
 
-The application also supports voice input through NVIDIA Parakeet ASR, optional privacy-aware Langfuse tracing, Vercel Web Analytics, responsive motion, keyboard navigation, theme preferences, and ambient audio controls.
+The application also supports voice input through NVIDIA Parakeet ASR, Langfuse tracing, Vercel Web Analytics, responsive motion, keyboard navigation, theme preferences, and ambient audio controls.
 
 ## Highlights
 
@@ -18,6 +18,8 @@ The application also supports voice input through NVIDIA Parakeet ASR, optional 
 - **Production safeguards** — validates chat and audio requests, enforces request limits, caps audio uploads at 12 MB, and returns explicit offline states when AI services are unavailable.
 - **Interactive presentation** — includes expandable project cards, animated project connectors, smooth scrolling, a command palette, light and dark themes, and reduced-motion support.
 - **Deployment visibility** — uses Vercel Web Analytics for production traffic insights.
+
+
 
 ## Architecture
 
@@ -34,6 +36,10 @@ flowchart LR
     Voice --> ASR["NVIDIA Parakeet ASR"]
 ```
 
+
+
+
+
 ### Chat flow
 
 1. The client sends the conversation and an opaque chat-session ID to `POST /api/chat`.
@@ -42,6 +48,8 @@ flowchart LR
 4. NVIDIA NIM generates the answer and the server streams it back to the client.
 5. When Langfuse is configured, the route records a sanitized chat-turn trace and flushes it after the stream closes.
 
+
+
 ### Voice flow
 
 1. Voice mode records microphone input in the browser.
@@ -49,19 +57,27 @@ flowchart LR
 3. `POST /api/transcribe` validates the file type and 12 MB size limit.
 4. NVIDIA Parakeet ASR returns text that the user can review before sending through the normal chat flow.
 
+
+
 ## Technology
 
-| Area | Technologies |
-| --- | --- |
-| Application | Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4 |
-| AI | AI SDK 7, OpenAI-compatible NVIDIA NIM adapter, NVIDIA Parakeet ASR |
-| Observability | Langfuse, OpenTelemetry, Vercel Web Analytics |
-| Interaction | Motion, Lenis, Lucide React |
-| Content | React Markdown, Remark GFM, structured TypeScript profile data |
-| Quality | Vitest, ESLint, TypeScript strict mode |
-| Hosting | Vercel with Git-based preview and production deployments |
+
+| Area          | Technologies                                                        |
+| ------------- | ------------------------------------------------------------------- |
+| Application   | Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4         |
+| AI            | AI SDK 7, OpenAI-compatible NVIDIA NIM adapter, NVIDIA Parakeet ASR |
+| Observability | Langfuse, OpenTelemetry, Vercel Web Analytics                       |
+| Interaction   | Motion, Lenis, Lucide React                                         |
+| Content       | React Markdown, Remark GFM, structured TypeScript profile data      |
+| Quality       | Vitest, ESLint, TypeScript strict mode                              |
+| Hosting       | Vercel with Git-based preview and production deployments            |
+
+
+
 
 ## Getting started
+
+
 
 ### Prerequisites
 
@@ -69,6 +85,8 @@ flowchart LR
 - npm
 - An [NVIDIA API key](https://build.nvidia.com/) for chat and voice features
 - Optional Langfuse project keys for tracing
+
+
 
 ### Installation
 
@@ -98,27 +116,31 @@ Without `NVIDIA_API_KEY`, the portfolio UI still loads, but chat and transcripti
 
 ## Environment variables
 
-| Variable | Required | Purpose |
-| --- | --- | --- |
-| `NVIDIA_API_KEY` | Yes for AI features | Server-side credential used by NVIDIA NIM and NVIDIA speech-to-text. |
-| `NVIDIA_MODEL` | No | Chat model ID. Defaults to `z-ai/glm-5.2`. |
-| `NVIDIA_ASR_URL` | No | Overrides the built-in NVIDIA Parakeet transcription endpoint. |
-| `LANGFUSE_PUBLIC_KEY` | No | Langfuse project public key. Tracing requires both project keys. |
-| `LANGFUSE_SECRET_KEY` | No | Langfuse project secret key. Keep this server-side. |
-| `LANGFUSE_BASE_URL` | No | Langfuse region URL, such as `https://us.cloud.langfuse.com` or `https://cloud.langfuse.com`. |
-| `LANGFUSE_TRACING_ENVIRONMENT` | No | Trace environment label. Falls back to `VERCEL_ENV`, then `NODE_ENV`. |
-| `LANGFUSE_TRACING_RELEASE` | No | Optional release label. Production falls back to the Vercel Git commit SHA when available. |
+
+| Variable                       | Required            | Purpose                                                                                       |
+| ------------------------------ | ------------------- | --------------------------------------------------------------------------------------------- |
+| `NVIDIA_API_KEY`               | Yes for AI features | Server-side credential used by NVIDIA NIM and NVIDIA speech-to-text.                          |
+| `NVIDIA_MODEL`                 | No                  | Chat model ID. Defaults to `z-ai/glm-5.2`.                                                    |
+| `NVIDIA_ASR_URL`               | No                  | Overrides the built-in NVIDIA Parakeet transcription endpoint.                                |
+| `LANGFUSE_PUBLIC_KEY`          | No                  | Langfuse project public key. Tracing requires both project keys.                              |
+| `LANGFUSE_SECRET_KEY`          | No                  | Langfuse project secret key. Keep this server-side.                                           |
+| `LANGFUSE_BASE_URL`            | No                  | Langfuse region URL, such as `https://us.cloud.langfuse.com` or `https://cloud.langfuse.com`. |
+| `LANGFUSE_TRACING_ENVIRONMENT` | No                  | Trace environment label. Falls back to `VERCEL_ENV`, then `NODE_ENV`.                         |
+| `LANGFUSE_TRACING_RELEASE`     | No                  | Optional release label. Production falls back to the Vercel Git commit SHA when available.    |
+
 
 Tracing is disabled unless both Langfuse project keys are present. Failure to initialize or export tracing does not make the assistant unavailable.
 
 ## Route Handlers
 
-| Route | Methods | Behavior |
-| --- | --- | --- |
-| `/api/chat` | `GET`, `HEAD` | Reports whether the NVIDIA chat integration is configured. |
-| `/api/chat` | `POST` | Validates messages, applies rate limiting, and streams a grounded response. |
-| `/api/transcribe` | `GET` | Reports whether speech-to-text is configured. |
-| `/api/transcribe` | `POST` | Accepts supported audio form data up to 12 MB and returns transcription text. |
+
+| Route             | Methods       | Behavior                                                                      |
+| ----------------- | ------------- | ----------------------------------------------------------------------------- |
+| `/api/chat`       | `GET`, `HEAD` | Reports whether the NVIDIA chat integration is configured.                    |
+| `/api/chat`       | `POST`        | Validates messages, applies rate limiting, and streams a grounded response.   |
+| `/api/transcribe` | `GET`         | Reports whether speech-to-text is configured.                                 |
+| `/api/transcribe` | `POST`        | Accepts supported audio form data up to 12 MB and returns transcription text. |
+
 
 The default limits are 20 chat requests and 12 transcription requests per client per minute. These counters are stored in memory and are therefore best-effort and local to each runtime instance. A shared data store is required for globally consistent limits across multiple instances.
 
@@ -157,16 +179,22 @@ src/
 └── instrumentation.ts            # Server-side tracing bootstrap
 ```
 
+
+
 ## Scripts
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Start the Next.js development server. |
-| `npm run build` | Create an optimized production build. |
-| `npm run start` | Serve the production build. |
-| `npm run lint` | Run ESLint. |
+
+| Command             | Purpose                                |
+| ------------------- | -------------------------------------- |
+| `npm run dev`       | Start the Next.js development server.  |
+| `npm run build`     | Create an optimized production build.  |
+| `npm run start`     | Serve the production build.            |
+| `npm run lint`      | Run ESLint.                            |
 | `npm run typecheck` | Run TypeScript without emitting files. |
-| `npm test` | Run the Vitest suite once. |
+| `npm test`          | Run the Vitest suite once.             |
+
+
+
 
 ## Deployment
 
@@ -189,6 +217,8 @@ Do not run a second `vercel deploy` workflow while the Git integration is active
 - [Local LLM Inference Benchmarking](https://github.com/vectorvoyager358/Local-LLM-Inference-Benchmarking-System) — empirical SLM performance testing on constrained hardware
 - [Moment Keeper](https://github.com/vectorvoyager358/moment-keeper) — a product for preserving and revisiting meaningful memories
 - [Portfolio](https://github.com/vectorvoyager358/Portfolio) — this interactive AI portfolio
+
+
 
 ## License
 
