@@ -1,4 +1,4 @@
-# Jeethesh Reddy — Signal Desk Portfolio
+# Jeethesh Reddy — Portfolio
 
  portfolio for a Software / AI Engineer. Includes **Ask Jeethesh**, a grounded streaming assistant powered by **NVIDIA NIM** (`https://integrate.api.nvidia.com/v1`).
 
@@ -6,7 +6,7 @@
 
 - Next.js (App Router) + TypeScript + Tailwind CSS
 - Motion + Lenis for interaction
-- Vercel AI SDK + `@ai-sdk/openai-compatible` → NVIDIA NIM
+- NVIDIA NIM for grounded streaming chat
 - Vitest for grounding / rate-limit / config tests
 
 ## Setup
@@ -84,3 +84,4 @@ the Git integration is enabled, because both paths would deploy the same commit.
 - [voxwire](https://github.com/vectorvoyager358/voxwire)
 - [Local-LLM-Inference-Benchmarking-System](https://github.com/vectorvoyager358/Local-LLM-Inference-Benchmarking-System)
 - [moment-keeper](https://github.com/vectorvoyager358/moment-keeper)
+- [Portfolio](https://github.com/vectorvoyager358/Portfolio)
