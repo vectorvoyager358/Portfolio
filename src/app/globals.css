@@ -299,6 +299,17 @@ button:disabled {
   }
 }
 
+@keyframes project-connector-flow {
+  to {
+    stroke-dashoffset: -8;
+  }
+}
+
+.project-connector-line {
+  opacity: 0.55;
+  animation: project-connector-flow 1s linear infinite;
+}
+
 .terminal-caret {
   background-color: var(--caret);
   animation: terminal-blink 1s step-end infinite;
@@ -315,7 +326,12 @@ button:disabled {
 @media (prefers-reduced-motion: reduce) {
   .atmosphere-orb,
   .atmosphere-mesh,
-  .terminal-caret {
+  .terminal-caret,
+  .project-connector-line {
     animation: none;
+  }
+
+  .project-connector-line {
+    opacity: 0.4;
   }
 }

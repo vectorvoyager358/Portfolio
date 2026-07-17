@@ -12,7 +12,9 @@ describe("profile grounding", () => {
     expect(context).toContain("VoxWire");
     expect(context).toContain("Local LLM Inference Benchmarking");
     expect(context).toContain("Moment Keeper");
+    expect(context).toContain("Portfolio");
     expect(context).toContain("Halliburton");
+    expect(context).toContain("Angular feature UIs");
     expect(context).toContain(profile.email);
   });
 
@@ -30,13 +32,14 @@ describe("profile grounding", () => {
     expect(profile.focusAreas.length).toBeGreaterThanOrEqual(4);
   });
 
-  it("exposes four projects matching GitHub pins", () => {
-    expect(profile.projects).toHaveLength(4);
+  it("exposes five featured projects", () => {
+    expect(profile.projects).toHaveLength(5);
     expect(profile.projects.map((p) => p.id)).toEqual([
       "resilience-hub",
       "voxwire",
       "local-llm-bench",
       "moment-keeper",
+      "portfolio",
     ]);
   });
 

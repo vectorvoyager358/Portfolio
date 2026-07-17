@@ -235,6 +235,42 @@ export const profile = {
       live: "https://moment-keeper-two.vercel.app/",
       accent: "#C4B5FD",
     },
+    {
+      id: "portfolio",
+      name: "Portfolio",
+      tagline: "Interactive portfolio with grounded AI and voice",
+      status: "This portfolio",
+      metrics: [
+        { label: "Framework", value: "Next.js 16" },
+        { label: "AI", value: "NVIDIA NIM" },
+        { label: "Input", value: "Text + voice" },
+      ],
+      description:
+        "An interactive software and AI engineering portfolio that turns a static resume into an explorable product — with a streaming, profile-grounded assistant, NVIDIA-powered voice transcription, Langfuse tracing, Vercel Analytics, and responsive motion.",
+      highlights: [
+        "Ask Jeethesh streams first-person answers constrained to structured profile context",
+        "Voice input records in the browser and transcribes through NVIDIA Parakeet ASR",
+        "Langfuse traces AI requests while Vercel Analytics tracks production traffic",
+        "Rate-limited API routes validate chat requests, audio types, and the 12 MB upload ceiling",
+        "Responsive, reduced-motion-aware interface with Motion, Lenis, theme, and ambient audio controls",
+      ],
+      stack: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Tailwind",
+        "Motion",
+        "NVIDIA NIM",
+        "Parakeet ASR",
+        "Langfuse",
+        "Vercel Analytics",
+        "Vitest",
+        "Vercel",
+      ],
+      github: "https://github.com/vectorvoyager358/Portfolio",
+      live: "https://portfolio-three-bice-shl0bnb8va.vercel.app",
+      accent: "#22D3EE",
+    },
   ] satisfies Project[],
   experience: [
     {
@@ -246,6 +282,7 @@ export const profile = {
       summary: undefined,
       bullets: [
         "Engineered an event-driven OSDU publishing platform with Node.js microservices, Kafka, Redis, and WebSockets to synchronize well-planning data across enterprise systems.",
+        "Built and maintained Angular feature UIs for the OSDU publishing platform, turning complex enterprise data workflows into clear, maintainable user experiences.",
         "Scaled AI-driven mutation testing across 10+ engineering teams with a dual-agent framework that reached ≥95% coverage via Stryker feedback loops.",
         "Unblocked Kafka deployments by identifying 200+ stale feature-branch topics and resolving Confluent limits at 18,000 partitions and 4,000 ACLs.",
         "Streamed Kafka status events through Socket.IO rooms for 7 OSDU transfer entities — repeat updates in 15–20s, first-time in ~2 minutes.",
@@ -336,10 +373,10 @@ export const profile = {
       items: [
         "Python",
         "TypeScript / JavaScript",
-        "C# / Java / SQL / Angular",
+        "C# / Java / SQL",
         "Flask / FastAPI",
         "Express / Hapi.js",
-        "Next.js / React",
+        "Angular / Next.js / React",
         "PostgreSQL / Supabase / Pinecone / SQLServer",
       ],
     },

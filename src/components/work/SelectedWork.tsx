@@ -162,6 +162,28 @@ function ProjectPanel({
   );
 }
 
+function ProjectConnector() {
+  return (
+    <div className="flex h-12 justify-center text-accent" aria-hidden="true">
+      <svg
+        className="h-full w-6 overflow-visible"
+        viewBox="0 0 24 48"
+        fill="none"
+        focusable="false"
+      >
+        <path
+          className="project-connector-line"
+          d="M 12 0 L 12 48"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeDasharray="4 4"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+    </div>
+  );
+}
+
 export function SelectedWork() {
   const [openId, setOpenId] = useState<string>(profile.projects[0]?.id ?? "");
 
@@ -171,34 +193,29 @@ export function SelectedWork() {
       className={`${sectionBandClass(SECTION_BANDS.work)} relative`}
     >
       <div className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8">
-      <Reveal>
-        <SectionHeading
-          eyebrow="What I build"
-          title="Projects"
-        />
-      </Reveal>
-      <Reveal delay={0.08}>
-        <div className="mx-auto mt-10 max-w-3xl">
-          {profile.projects.map((project, index) => (
-            <div key={project.id}>
-              <ProjectPanel
-                project={project}
-                open={openId === project.id}
-                onToggle={() =>
-                  setOpenId((current) =>
-                    current === project.id ? "" : project.id,
-                  )
-                }
-              />
-              {index < profile.projects.length - 1 ? (
-                <div className="flex justify-center" aria-hidden>
-                  <span className="block h-12 w-px border-l border-dashed border-line" />
-                </div>
-              ) : null}
-            </div>
-          ))}
-        </div>
-      </Reveal>
+        <Reveal>
+          <SectionHeading eyebrow="What I build" title="Projects" />
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="mx-auto mt-10 max-w-3xl">
+            {profile.projects.map((project, index) => (
+              <div key={project.id}>
+                <ProjectPanel
+                  project={project}
+                  open={openId === project.id}
+                  onToggle={() =>
+                    setOpenId((current) =>
+                      current === project.id ? "" : project.id,
+                    )
+                  }
+                />
+                {index < profile.projects.length - 1 ? (
+                  <ProjectConnector />
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
