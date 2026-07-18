@@ -268,7 +268,6 @@ export const profile = {
         "Vercel",
       ],
       github: "https://github.com/vectorvoyager358/Portfolio",
-      live: "https://portfolio-three-bice-shl0bnb8va.vercel.app",
       accent: "#22D3EE",
     },
   ] satisfies Project[],
